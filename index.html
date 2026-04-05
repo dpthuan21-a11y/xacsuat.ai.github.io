@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Chat</title>
+</head>
+<body>
+  <h2>Chat với AI</h2>
+
+  <input id="input" placeholder="Nhập câu hỏi..." />
+  <button onclick="chat()">Gửi</button>
+
+  <p id="output"></p>
+
+  <script>
+    async function chat() {
+      const msg = document.getElementById("input").value;
+
+      const res = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer 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"
+        },
+        body: JSON.stringify({
+          model: "gpt-4o-mini",
+          messages: [{ role: "user", content: msg }]
+        })
+      });
+
+      const data = await res.json();
+      document.getElementById("output").innerText =
+        data.choices[0].message.content;
+    }
+  </script>
+</body>
+</html>
